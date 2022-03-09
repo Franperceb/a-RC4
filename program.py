@@ -3,15 +3,15 @@ import fileinput
 #2 digits hexadecimal
 def ToHexadecimal(n): 
 	hexadecimal = hex(n).split('x')[1]
-	if len(h) < 2:
-		hexadecimal = "0" + h
+	if len(hexadecimal) < 2:
+		hexadecimal = "0" + hexadecimal
 	return hexadecimal.upper()
 
 #Key Scheduling Algorithm.
 def KSA(k): 
-	key = [ord(c) for c in key]
-  permutation = [] #S
-  j = 0
+	key = [ord(c) for c in k]
+	permutation = [] #S
+	j = 0
 
 	for i in range(0,256):
 		permutation.append(i)
@@ -27,7 +27,7 @@ def KSA(k):
 #Pseudorandom generation algorithm
 def PRGA(S,size): 
 	i  = 0
-  j = 0
+	j = 0
 	for s in range (0,size):
 		i = (i + 1) % 256
 		j = (j + S[i]) % 256
@@ -38,15 +38,16 @@ def PRGA(S,size):
 		KeyEncrypted = S[(S[i] + S[j]) % 256]
 		yield KeyEncrypted
 
-def rc4(key,msg):
-	encryptedMsg = ''
-  S=KSA(key)
-  counter = 0 #to get every character of the text.
-	keyStream = PRGA(S,len(msg))
-	for i in keyStream:
-		r = r + ToHexadecimal(ord(msg[c])^i)
-		counter += 1
-	return encryptedMsg
+def RC4(key,msg):
+    encryptedMsg = ''
+    S=KSA(key)
+    counter = 0 #to get every character of the text.
+    keyStream = PRGA(S,len(msg))
+    #creating the encrypted output
+    for i in keyStream:
+        encryptedMsg += ToHexadecimal(ord(msg[counter])^i)
+        counter += 1
+    return encryptedMsg
 
 #Alphagrader testing
 lines = []
