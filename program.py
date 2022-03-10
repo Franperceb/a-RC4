@@ -49,6 +49,7 @@ def RC4(key,msg):
         counter += 1
     return encryptedMsg
 
+
 #Alphagrader testing
 lines = []
 for line in fileinput.input():
